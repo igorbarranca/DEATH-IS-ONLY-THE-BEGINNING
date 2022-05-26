@@ -11,8 +11,8 @@ public class PlayerMovement : MonoBehaviour
     Vector2 moveInput;
     
     Rigidbody2D rb;
-    CapsuleCollider2D bodyCollider;
     BoxCollider2D feetCollider;
+    PlayerTransformer playerTransformer;
     
     Animator anim;
     private const string IS_RUNNING = "isRunning";
@@ -21,8 +21,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        bodyCollider = GetComponent<CapsuleCollider2D>();
         feetCollider = GetComponent<BoxCollider2D>();
+        playerTransformer = GetComponent<PlayerTransformer>();
     }   
 
     // Update is called once per frame
@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
     {
         Run();
         FlipSprite();
-        Die();
     }
 
     void OnMove(InputValue value)
@@ -40,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump(InputValue value)
     {
-        if(!IsPlayerTouchingGround()) { return; }
+        if((playerTransformer.LifeState == PlayerState.Alive) && (!IsPlayerTouchingGround())) { return; }
         if (value.isPressed)
         {
             rb.velocity += new Vector2(0f, jumpSpeed);
@@ -71,13 +70,5 @@ public class PlayerMovement : MonoBehaviour
     bool IsPlayerTouchingGround()
     {
         return feetCollider.IsTouchingLayers(LayerMask.GetMask("Ground"));
-    }
-
-    void Die()
-    {
-        if (feetCollider.IsTouchingLayers(LayerMask.GetMask("Hazard")))
-        {
-            Debug.Log("I'm dead");
-        }
     }
 }
