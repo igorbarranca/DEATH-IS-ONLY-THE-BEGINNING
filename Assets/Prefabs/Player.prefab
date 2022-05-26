@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 2794030677824252376}
   - component: {fileID: 7236178995676080793}
   - component: {fileID: 2068581676390518444}
-  - component: {fileID: 7236178995676080794}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -77,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 187124051
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 8589515441363941136, guid: 647262576c6d7d1468ac33e7f3e98f84, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -229,17 +228,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spiritStateDuration: 1.5
-  isLastChance: 0
---- !u!114 &7236178995676080794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7236178995171845522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c92b83ec4bf0b6f46932b9d7e51e5406, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spiritSprite: {fileID: -2529728762117229757, guid: 647262576c6d7d1468ac33e7f3e98f84, type: 3}

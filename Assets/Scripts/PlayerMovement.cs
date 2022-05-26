@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(playerTransformer.LifeState == PlayerState.Dead) { return; }
         Run();
         FlipSprite();
     }
@@ -51,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 playerVelocity = new Vector2(moveInput.x * runSpeed, rb.velocity.y);
         rb.velocity = playerVelocity;
 
-        anim.SetBool("isRunning", PlayerHasHorizontalSpeed());
+        anim.SetBool(IS_RUNNING, PlayerHasHorizontalSpeed());
     }
 
     void FlipSprite()

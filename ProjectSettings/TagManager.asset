@@ -50,6 +50,9 @@ TagManager:
   - name: Hazard
     uniqueID: 3373050641
     locked: 0
+  - name: Enemies
+    uniqueID: 1657710317
+    locked: 0
   - name: Player
     uniqueID: 187124051
     locked: 0

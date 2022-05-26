@@ -6,11 +6,8 @@ using System;
 
 public class PlayerTransformer : MonoBehaviour
 {
-    [SerializeField] Sprite aliveSprite;
-    [SerializeField] Sprite spiritSprite;
-    SpriteRenderer spriteRenderer;
-
     [SerializeField] float spiritStateDuration = 3f;
+    [SerializeField] GameObject enemies;
 
     Animator anim;
 
@@ -21,7 +18,6 @@ public class PlayerTransformer : MonoBehaviour
     //public event Action onStateChangeAction;
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
     }
     // Start is called before the first frame update
@@ -58,15 +54,26 @@ public class PlayerTransformer : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        FlyingEnemyMover enemy = collision.gameObject.GetComponent<FlyingEnemyMover>();
+        if(enemy != null)
+        {
+            LifeState = PlayerState.Dead;
+        }
+    }
+
     IEnumerator SpiritStateActivator()
     {
         
         LifeState = PlayerState.Spirit;
+        enemies.gameObject.SetActive(true);
         anim.SetBool("isSpirit", true);
         
         yield return new WaitForSeconds(spiritStateDuration);
         
         LifeState = PlayerState.Alive;
+        enemies.gameObject.SetActive(false);
         anim.SetBool("isSpirit", false);
     }
 
