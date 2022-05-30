@@ -15,7 +15,7 @@ TagManager:
   - Background
   - Player
   - Hazard
-  - 
+  - LevelExit
   - 
   - 
   - 
@@ -53,6 +53,12 @@ TagManager:
   - name: Enemies
     uniqueID: 1657710317
     locked: 0
+  - name: LevelExit
+    uniqueID: 1397406333
+    locked: 0
   - name: Player
     uniqueID: 187124051
+    locked: 0
+  - name: Foreground
+    uniqueID: 767311777
     locked: 0

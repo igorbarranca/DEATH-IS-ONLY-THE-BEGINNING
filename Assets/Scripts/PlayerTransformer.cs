@@ -9,11 +9,11 @@ public class PlayerTransformer : MonoBehaviour
     [SerializeField] float spiritStateDuration = 3f;
     [SerializeField] GameObject enemies;
 
+    [SerializeField] GameSession gameSession;
+
     Animator anim;
 
     public PlayerState LifeState { get; private set; }
-
-    bool isLastChance = false;
 
     //public event Action onStateChangeAction;
     private void Awake()
@@ -36,21 +36,30 @@ public class PlayerTransformer : MonoBehaviour
     {
         if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Hazard"))
         {
-            //se alive -> spirit : coroutine di 3 secondi dove poi torna in alive state.
-            if(LifeState == PlayerState.Spirit) { return; }
-            if (isLastChance)
+            switch (LifeState)
             {
-                LifeState = PlayerState.Dead;
-            }
-            if(LifeState == PlayerState.Alive)
-            {
-                isLastChance = true;
-                StartCoroutine(SpiritStateActivator());
+                case PlayerState.Spirit:
+                    break;
+
+                case PlayerState.Alive:
+                    StartCoroutine(SpiritState());
+                    break;
+
+                case PlayerState.TemporaryAlive:
+                    LifeState = PlayerState.Dead;
+                    gameSession.ReloadLevel();
+                    break;
             }
         }
-        else if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            isLastChance = false;
+            if (LifeState == PlayerState.TemporaryAlive)
+            {
+                LifeState = PlayerState.Alive;
+            }
         }
     }
 
@@ -60,20 +69,20 @@ public class PlayerTransformer : MonoBehaviour
         if(enemy != null)
         {
             LifeState = PlayerState.Dead;
+            gameSession.ReloadLevel();
         }
     }
 
-    IEnumerator SpiritStateActivator()
+    IEnumerator SpiritState()
     {
-        
         LifeState = PlayerState.Spirit;
-        enemies.gameObject.SetActive(true);
+        enemies.SetActive(true);
         anim.SetBool("isSpirit", true);
         
         yield return new WaitForSeconds(spiritStateDuration);
         
-        LifeState = PlayerState.Alive;
-        enemies.gameObject.SetActive(false);
+        LifeState = PlayerState.TemporaryAlive;
+        enemies.SetActive(false);
         anim.SetBool("isSpirit", false);
     }
 
@@ -83,6 +92,7 @@ public enum PlayerState
 { 
     Alive,
     Spirit,
+    TemporaryAlive,
     Dead
 }
 

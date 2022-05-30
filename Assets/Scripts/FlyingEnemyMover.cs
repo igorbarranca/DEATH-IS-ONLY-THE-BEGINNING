@@ -5,6 +5,7 @@ using UnityEngine;
 public class FlyingEnemyMover : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float distanceForChasing = 15f;
 
     private Transform player;
 
@@ -22,6 +23,8 @@ public class FlyingEnemyMover : MonoBehaviour
 
     void ChasePlayer()
     {
+        if(Vector2.Distance(transform.position, player.position) > distanceForChasing) { return; }
+        
         var step = moveSpeed * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, player.position, step);
     }
